@@ -46,7 +46,8 @@ exports.getListQuestionToTest = async (req, res) => {
                 }
             }
         ]);
-        successResponse(res, questions);
+        const startTime = new Date();
+        successResponse(res, { questions, startTime });
     } catch (err) {
         errorResponse(res, 500, 'Lỗi khi lấy danh sách câu hỏi cho bài thi');
     }
