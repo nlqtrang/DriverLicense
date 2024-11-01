@@ -7,7 +7,8 @@ exports.createQuestion = async (req, res) => {
     // Kiểm tra lỗi validation từ request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return errorResponse(res, 400, errors.array().map(error => error.msg).join(', '));
+        // return errorResponse(res, 400, errors.array().map(error => error.msg).join(', '));
+        return errorResponse(res, 400, errors.array()[0].msg);
     }
 
     try {

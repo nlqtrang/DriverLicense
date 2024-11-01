@@ -7,10 +7,24 @@ exports.validateCreateOrUpdateQuestion = [
     body('options.*.text').notEmpty().withMessage('Nội dung đáp án không được để trống'),
     body('options.*.isCorrect').isBoolean().withMessage('Trạng thái đúng/sai của đáp án phải là boolean'),
     body('options').custom((options) => {
-        const uniqueOptions = new Set(options.map(option => option.text));
+        const uniqueOptions = new Set(options?.map(option => option.text));
         if (uniqueOptions.size !== options.length) {
             throw new Error('Các đáp án không được trùng lặp');
         }
         return true;
-    })
+    }),
+    body('options').custom((options) => {
+        const correctOptions = options.filter(option => option.isCorrect);
+        if (correctOptions.length !== 1) {
+            throw new Error('Phải có duy nhất một đáp án đúng');
+        }
+        return true;
+    }),
+    // body('options').custom((options) => {
+    //     const correctOptions = options.filter(option => option.isCorrect);
+    //     if (correctOptions.length < 1) {
+    //         throw new Error('Phải có ít nhất một đáp án đúng');
+    //     }
+    //     return true;
+    // })
 ];
